@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mario - Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="container">
+    <img src="imagens/clouds.png" alt="" class="nuvem">
+  <img src="imagens/pipe.png" alt="" class="pipe">
+  <img src="imagens/mario.gif" alt="" class="mario">
+</div>
+
+<script>
+    //SELETOR DE ELEMENTOS E CRIAÇÃO DE VARIAVEIS
+    const MARIO = document.querySelector('.mario')
+    const TUBO = document.querySelector('.pipe')
+    const NUVEM = document.querySelector('.nuvem')
+
+    let loop = setInterval(() => {
+        let marioPosition = +window.getComputedStyle(MARIO).bottom.replace('px', ''); /* A medida da posição do mario é capturada como string, adicionando o '+' na frente, a engine interpreta como 'NUMBER'*/
+        let tuboPosition = TUBO.offsetLeft;
+
+        //VERIFICAÇÃO SE ANIMAÇÃO DO MARIO BATE NO TUBO UTILIZANDO MEDIDAS DE ALTURA PARA VERIFICAR SE MARIO PULOU QUANDO O RIGHT CHEGA EM SUA POSIÇÃO
+        if(tuboPosition < 120 && tuboPosition > 0 && marioPosition < 90){
+            TUBO.style.animation = 'none';
+            TUBO.style.left = `${tuboPosition}px`; // settando a posição para o tubo parar exatamente onde bateu
+
+            
+            MARIO.style.animation = 'none';
+            MARIO.style.bottom = `${marioPosition}px` 
+            MARIO.src = './imagens/game-over.png'
+            MARIO.style.width = '75px'
+            MARIO.style.marginLeft = '50px'
+
+            NUVEM.style.animation = 'none'
+            NUVEM.classList.add('hide')
+            
+        
+            
+            clearInterval(loop)
+           
+        }
+        
+    }, 10);
+
+    //EVENTOS
+    
+    //ANIMAÇÃO DE PULO
+    document.addEventListener('keydown', ()=>{
+    MARIO.classList.add('jump');
+   setTimeout(()=>{
+        MARIO.classList.remove('jump');
+    }, 500);
+   });
+    
+
+</script>
+</body>
+</html>
